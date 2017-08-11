@@ -1,0 +1,7 @@
+$ virtualenv -p python3 venv
+$ source venv/bin/activate
+$ pip install flask
+$ vim web.py
+$ export FLASK_APP=web.py 
+$ export FLASK_DEBUG=1
+$ flask run —with-threads -h 0.0.0.0 -p 5000
