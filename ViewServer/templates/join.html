@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>EDUTER</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="bootstrap/css/bootstrap-ko.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link href="../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap-ko.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/join.css">
 </head>
 <body>
     <div class="row-fluid" id="container">
@@ -18,17 +18,17 @@
                 <h1>EDUTER</h1>
             </div>
 
-            <div class="span12 form-content" id="container-login">
-                <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-signin" action="">
-                    <h1 class="form-signin-heading text-muted">Login</h1>
+            <div class="span12 form-content" id="container-join">
+                <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-join" action="">
+                    <h1 class="form-join-heading text-muted">Join</h1>
                     <input type="text" id="username" autofocus="autofocus" placeholder="Username" class="form-control" name="username" style="width:300px;margin-top:20px;">
+                    <input type="text" id="mobile" placeholder="Mobile" class="form-control" name="mobile" style="width:300px;">
                     <input type="password" id="password" placeholder="Password" class="form-control" name="password" style="width:300px;">
+                    <input type="password" id="password2" placeholder="Reinput Password" class="form-control" name="password2" style="width:300px;">
                     <button type="button" class="btn btn-lg btn-info btn-block" style="width:300px; height:40px;margin-top:20px;">
-                    Login
-                    </button>
-                    <button type="button" class="btn btn-lg btn-block" style="width:300px; height:40px;margin-top:20px;">
                     Join
                     </button>
+
                 </form>
             </div>
 

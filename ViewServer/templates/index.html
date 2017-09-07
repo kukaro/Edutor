@@ -17,25 +17,11 @@
         $("#question-frame").load("/question", {year: '2017', month: '5', subject: '영어'});
     });*/
     $(document).ready(function () {
-        $("#answer-frame").load("/answer");
+        $("#left-frame").load("/left");
     });
     $(document).ready(function () {
-        $("#chatbot-frame").load("/chatbot");
+        $("#right-frame").load("/right");
     });
-    $(document).ready(function () {
-        $("#chatbot-input-frame").load("/chatbot-input");
-    });
-
-    $.ajax({
-        type: 'post',
-        url: '/question',
-        data: {year: '1999'},
-        success: function (data) {
-            $("#question-frame").html(data);
-        }
-    });
-
-
 </script>
 <body>
 <div class="row-fluid" id="container">
@@ -47,19 +33,13 @@
 
     </div>
     <div class="row-fluid">
-        <!--우측 프레임-->
-        <div class="span8" id="container-left">
-            <!--문제가 출력되는 프레임-->
-            <div id="question-frame"></div>
-            <!--답안이 출력되는 프레임-->
-            <div id="answer-frame"></div>
-        </div>
         <!--좌측 프레임-->
+        <div class="span8" id="container-left">
+            <div id="left-frame"></div>
+        </div>
+        <!--우측 프레임-->
         <div class="span4 bg-white" id="container-right">
-            <!--챗봇 프레임-->
-            <div id="chatbot-frame"></div>
-            <!--대화 입력 프레임-->
-            <div id="chatbot-input-frame"></div>
+            <div id="right-frame"></div>
         </div>
     </div>
 </div>

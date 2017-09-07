@@ -1,0 +1,43 @@
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+    $(document).ready(function () {
+        var socket = io.connect("http://" + document.domain + ":" + location.port + "/mynamespace");
+        socket.on('connect', function (msg) {
+            console.log('connect')
+            socket.emit('test', {state: 'connection success'})
+        })
+
+        send_dialog = function () {
+            if ($("#input-data").val() == "") {
+                return false;
+            }
+            var str = $("#input-data").val();
+            var bytes = []; // char codes
+            var bytesv2 = []; // char codes
+
+            for (var i = 0; i < str.length; ++i) {
+                var code = str.charCodeAt(i);
+
+                bytes = bytes.concat([code]);
+
+                bytesv2 = bytesv2.concat([code & 0xff, code / 256 >>> 0]);
+            }
+            console.log(bytes)
+            console.log(bytesv2)
+            //socket.emit("dialog", {data: $("#input-data").val(), name: 'limzz'});
+            socket.emit("dialog", {data: bytes});
+            $("#input-data").val("");
+        }
+    });
+</script>
+<div class="span4" id="chatbot-input">
+    <form class="broadcast">
+        <div class="form-group">
+            <div class="input-append">
+                <input class="input-xlarge" id="input-data" type="text"
+                       placeholder="대화를 입력해주세요.">
+                <input class="btn" type="button" value="보내기" id="submit-button" onclick="send_dialog()"/>
+            </div>
+        </div>
+    </form>
+</div>
