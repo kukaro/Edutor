@@ -1,6 +1,4 @@
-import os
-import unicodedata
-from flask import Flask, render_template, make_response, redirect, request
+from flask import Flask, render_template, make_response, redirect, request, session
 from flask_restful import Resource, Api, reqparse
 from flask_socketio import SocketIO, emit
 from route.join import Join
@@ -11,8 +9,12 @@ from route.term_answer import TermAnswer
 from route.term_question import TermQuestion
 from route.left import Left
 from route.right import Right
-import urllib.request
-import json
+from route.chatbot_user import ChatbotUser
+from route.login import Login
+from route.testEraseSession import TestEraseSession
+from module.utils.dialog import byteArrayToStr, addDialog
+from module.chatbot import chatbot
+import datetime
 
 # Make Instance
 app = Flask(__name__)
@@ -23,7 +25,7 @@ socketio = SocketIO(app)
 
 @socketio.on('connect', namespace='/mynamespace')
 def connect():
-    # emit("response", {'data': 'Connected'})
+    # emit('response', {'data': 'Connected'})
     pass
 
 
@@ -34,8 +36,26 @@ def test(msg):
 
 @socketio.on('dialog', namespace='/mynamespace')
 def dialog(msg):
-    print(msg['data'])
-    print(chr(msg['data'][0]))
+    dialog = byteArrayToStr(msg['data'])
+    name = byteArrayToStr(msg['name'])
+    email = byteArrayToStr(msg['email'])
+    time = str(datetime.datetime.now())
+    print('socket on dialog : ')
+    print(dialog, name, email, time)
+    if 'isLogin' in session:
+        if addDialog(dialog, name, email, time):
+            emit('dialogConfirm', {'confirm': True, 'dialog': dialog, 'time': time})
+        else:
+            emit('dialogConfirm', {'confirm': False})
+    else:
+        emit('dialogConfirm', {'confirm': False})
+
+
+@socketio.on('callChatbot', namespace='/mynamespace')
+def callChat(msg):
+    if msg['state'] == True:
+        tmp = chatbot(msg['dialog'])
+        emit('ansChatbot', {'dialog': tmp})
 
 
 '''
@@ -54,14 +74,20 @@ class Root(Resource):
 api.add_resource(Root, '/')
 '''
 
+# Route
 api.add_resource(Root, '/')
 api.add_resource(Join, '/join')
+api.add_resource(Login, '/login')
 api.add_resource(ChatbotBody, '/chatbot-body')
 api.add_resource(ChatbotInput, '/chatbot-input')
 api.add_resource(TermAnswer, '/term-answer')
 api.add_resource(TermQuestion, '/term-question')
 api.add_resource(Left, '/left')
 api.add_resource(Right, '/right')
+api.add_resource(ChatbotUser, '/chatbot-user')
+
+# Test Route
+api.add_resource(TestEraseSession, '/erase-session')
 
 if __name__ == '__main__':
     # app.run()
