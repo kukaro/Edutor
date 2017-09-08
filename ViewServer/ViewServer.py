@@ -1,22 +1,25 @@
-from flask import Flask, render_template, make_response, redirect, request, session
-from flask_restful import Resource, Api, reqparse
+import datetime
+
+from flask import Flask, session
+from flask_restful import Api
 from flask_socketio import SocketIO, emit
-from route.join import Join
-from route.root import Root
+
+from module.chatbot import chatbot
+from module.utils.dialog import byteArrayToStr, addDialog
+from module.utils.term_slate import get_slate
+from module.utils.term_crolling import get_term
+
 from route.chatbot_body import ChatbotBody
 from route.chatbot_input import ChatbotInput
+from route.chatbot_user import ChatbotUser
+from route.join import Join
+from route.left import Left
+from route.login import Login
+from route.right import Right
+from route.root import Root
 from route.term_answer import TermAnswer
 from route.term_question import TermQuestion
-from route.left import Left
-from route.right import Right
-from route.chatbot_user import ChatbotUser
-from route.login import Login
 from route.testEraseSession import TestEraseSession
-from module.utils.dialog import byteArrayToStr, addDialog
-from module.chatbot import chatbot
-from route.term_crolling import get_term
-from route.term_slate import get_slate
-import datetime
 
 # Make Instance
 app = Flask(__name__)
@@ -46,15 +49,6 @@ def dialog(msg):
     print(dialog, name, email, time)
     if 'isLogin' in session:
         if addDialog(dialog, name, email, time):
-            result_crolling = get_term(dialog)
-            term_title = result_crolling['term_title']
-            term_url = result_crolling['term_url']
-
-            if result_crolling['success'] == 'ok':
-                term_title = get_slate(term_title, term_url)
-
-                # term_title.txt 를 문제 별로 자르고 DB에 저장
-
             emit('dialogConfirm', {'confirm': True, 'dialog': dialog, 'time': time})
         else:
             emit('dialogConfirm', {'confirm': False})

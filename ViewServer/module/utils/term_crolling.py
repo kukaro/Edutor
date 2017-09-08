@@ -10,6 +10,7 @@ import urllib.request
 titleList = []
 urlList = []
 
+
 class EBS:
     def __init__(self):
         self.session = requests.Session()
@@ -110,6 +111,7 @@ else:
     ebs.session.cookies._cookies = pickle.loads(cookies)
     print('Loaded cookies')
 
+
 # def get_term(dialog):
 #     for year in range(2006, 2018, 1):
 #         page = 1
@@ -142,10 +144,10 @@ else:
 
 
 def get_term(dialog):
-
     dialogList = dialog.split(" ")
     matched = re.match(r'^(\d+)년도$', dialogList[0])
-
+    print('Enter Get Term Dialog:')
+    print(dialogList)
     if not matched:
         return None
 
@@ -158,10 +160,16 @@ def get_term(dialog):
             titleList = Listset[0]
             urlList = Listset[1]
 
-            for i in titleList:
-                term_title = titleList.pop()
-                download_url = urlList.pop()
+            for i in range(len(titleList)):
+                term_title = titleList[i]
+                download_url = urlList[i]
+                '''
+                print('*****')
+                print(i)
 
+                print(term_title)
+                print(download_url)
+                '''
                 if dialog.find('모의고사') != -1:
                     month = dialogList[1]
                     subject = dialogList[2]
@@ -169,9 +177,9 @@ def get_term(dialog):
                     if term_title.find(month) != -1 and term_title.find(subject) != -1:
                         print(term_title)
                         print(download_url)
+                        filename = '/Users/jiharu/Desktop/' + term_title + '.pdf'
+                        urllib.request.urlretrieve(download_url, filename)
                         return {'success': 'ok', 'term_title': term_title, 'term_url': download_url}
-                    else:
-                        return {'success': 'error'}
 
                 elif dialog.find('수능') != -1:
                     subject = dialogList[1]
@@ -179,15 +187,13 @@ def get_term(dialog):
                     if term_title.find(subject) != -1:
                         print(term_title)
                         print(download_url)
+                        filename = '/Users/jiharu/Desktop/' + term_title + '.pdf'
+                        urllib.request.urlretrieve(download_url, filename)
                         return {'success': 'ok', 'term_title': term_title, 'term_url': download_url}
-                    else:
-                        return {'success': 'error'}
 
-                    # filename = '/Users/limjinha/Desktop/testForder/' + wordList[0] + wordList[2] + wordList[4] + '.pdf'
-                    # urllib.request.urlretrieve(download_url, filename)
-        except:
+
+
+        except Exception as e:
             break
         else:
             page += 1
-
-get_term('2016년도 10월 영어 모의고사')
