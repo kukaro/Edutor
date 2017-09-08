@@ -1,0 +1,112 @@
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+    $(document).ready(function () {
+        var socket = io.connect("http://" + document.domain + ":" + location.port + "/mynamespace");
+        socket.on('connect', function (msg) {
+            console.log('connect')
+            socket.emit('test', {state: 'connection success'});
+            /*var chatbot_bot_frame = '<li class="left clearfix">\n' +
+                '                                    <span class="chat-img pull-left">\n' +
+                '                                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">\n' +
+                '                                    </span>\n' +
+                '    <div class="chat-body clearfix">\n' +
+                '        <div class="header">\n' +
+                '            <strong class="primary-font">eduter</strong>\n' +
+                '            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago\n' +
+                '            </small>\n' +
+                '        </div>\n' +
+                '        <p>\n' +
+                '            반갑다 진하야!\n' +
+                '        </p>\n' +
+                '    </div>\n' +
+                '</li>';
+            $('#chat-body').html($('#chat-body').html() + chatbot_bot_frame);*/
+        })
+        socket.on('dialogConfirm', function (msg) {
+            var confirm = msg['confirm'];
+            var dialog = msg['dialog']
+            var time = msg['time']
+            if (confirm) {
+                var chatbot_user_frame = '<li class="right clearfix">\n' +
+                    '                                    <span class="chat-img pull-right">\n' +
+                    '                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">\n' +
+                    '                                    </span>\n' +
+                    '    <div class="chat-body clearfix">\n' +
+                    '        <div class="header">\n' +
+                    '            <strong class="primary-font">{{ name }}</strong>\n' +
+                    '            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + time + '\n' +
+                    '            </small>\n' +
+                    '        </div>\n' +
+                    '        <p>\n' +
+                    '            ' + dialog + '\n' +
+                    '        </p>\n' +
+                    '    </div>\n' +
+                    '</li>';
+                $('#chat-body').html($('#chat-body').html() + chatbot_user_frame);
+                socket.emit('callChatbot', {state: true, dialog: strToBytes(dialog)});
+            }
+        });
+        socket.on('ansChatbot', function (msg) {
+            var dialog = msg['dialog']
+            var chatbot_bot_frame = '<li class="left clearfix">\n' +
+                '                                    <span class="chat-img pull-left">\n' +
+                '                                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">\n' +
+                '                                    </span>\n' +
+                '    <div class="chat-body clearfix">\n' +
+                '        <div class="header">\n' +
+                '            <strong class="primary-font">eduter</strong>\n' +
+                '            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago\n' +
+                '            </small>\n' +
+                '        </div>\n' +
+                '        <p>\n' +
+                '            ' + dialog + ' ' +
+                '        </p>\n' +
+                '    </div>\n' +
+                '</li>';
+            $('#chat-body').html($('#chat-body').html() + chatbot_bot_frame);
+        })
+
+        sendDialog = function () {
+            if ($("#input-data").val() == "") {
+                return false;
+            }
+            socket.emit("dialog", {
+                data: strToBytes($("#input-data").val()),
+                name: strToBytes("{{ name }}"),
+                email: strToBytes("{{ email }}")
+            });
+            $("#input-data").val("");
+        }
+
+        function strToBytes(str) {
+            var bytes = []; // char codes
+            for (var i = 0; i < str.length; ++i) {
+                var code = str.charCodeAt(i);
+                bytes = bytes.concat([code]);
+            }
+            return bytes
+        }
+    });
+</script>
+<!--챗봇 프레임-->
+<div id="chat-hide">
+</div>
+<div class="row-fluid" id="chatbot">
+    <h3>CHATTING</h3>
+    <div class="chat-message">
+        <ul class="chat" id="chat-body">
+        </ul>
+    </div>
+</div>
+<!--대화 입력 프레임-->
+<div class="span4" id="chatbot-input">
+    <form class="broadcast">
+        <div class="form-group">
+            <div class="input-append">
+                <input class="input-xlarge" id="input-data" type="text"
+                       placeholder="대화를 입력해주세요.">
+                <input class="btn" type="button" value="보내기" id="submit-button" onclick="sendDialog()"/>
+            </div>
+        </div>
+    </form>
+</div>
