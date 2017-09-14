@@ -6,6 +6,9 @@ from flask_socketio import SocketIO, emit
 
 from module.chatbot import chatbot
 from module.utils.dialog import byteArrayToStr, addDialog
+from module.utils.term_slate import get_slate
+from module.utils.term_crolling import get_term
+
 from route.chatbot_body import ChatbotBody
 from route.chatbot_input import ChatbotInput
 from route.chatbot_user import ChatbotUser
@@ -18,7 +21,6 @@ from route.term_answer import TermAnswer
 from route.term_question import TermQuestion
 from route.testEraseSession import TestEraseSession
 from route.hello import Hello
-
 # Make Instance
 app = Flask(__name__)
 api = Api(app)
