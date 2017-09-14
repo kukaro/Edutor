@@ -4,6 +4,8 @@ from flaskext.mysql import MySQL
 from pymongo import MongoClient
 import json
 
+from route.Answer import Answer
+
 app = Flask(__name__)
 
 mysql = MySQL()
@@ -377,6 +379,7 @@ api.add_resource(Bot, '/bot')
 api.add_resource(Term, '/term', endpoint='/question')
 api.add_resource(Dialog, '/dialog')
 api.add_resource(Question, '/question')
+api.add_resource(Answer, '/answer')
 
 if __name__ == '__main__':
     app.run(port=5001)

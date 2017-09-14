@@ -9,8 +9,8 @@ def byteArrayToStr(arr):
     return tmp
 
 
-def addDialog(dialog, name, email, time):
-    data = {'email': email, 'name': name, 'message': dialog, 'time': time}
+def addDialog(dialog, name, email, time, callState):
+    data = {'email': email, 'name': name, 'message': dialog, 'time': time, 'callState': callState}
     jsonData = bytes(json.dumps(data).encode())
     print('Add Dialog Result : ')
     print(jsonData)
