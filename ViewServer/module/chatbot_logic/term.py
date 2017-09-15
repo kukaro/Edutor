@@ -1,12 +1,13 @@
-from module.utils.term.term_slate import get_slate
-from module.utils.term.term_toHTML import get_toHTML
-from module.utils.term.term_crolling import get_term
-from module.utils.get_exam_crawling import get_s_data, get_m_data
-from module.utils.csv_test import readCSV
-from module.utils.dialog import byteArrayToStr
-from flask import session
 import json
 import urllib
+
+from flask import session
+
+from module.utils.dialog import byteArrayToStr
+from module.utils.get_exam_crawling import get_s_data, get_m_data
+from module.utils.term.term_crolling import get_term
+from module.utils.term.term_slate import get_slate
+from module.utils.term.term_toHTML import get_toHTML
 
 
 def term(msg):
@@ -33,12 +34,16 @@ def term(msg):
         get_slate(term_title, term_url)
         get_toHTML(term_title)
         if term_type == '수능':
-            if subject == '수학':
-                subject += '가형'
-            get_s_data(str(year[0:4]), str(subject))
+            point_cut, wrong_answer = get_s_data(str(year[0:4]), str(subject))
+            data = {'year': year, 'subject': subject, 'term_type': '수능', 'point_cut_dir': point_cut,
+                    'wrong_answer_dir': wrong_answer}
+            jsonData = bytes(json.dumps(data).encode())
+            req = urllib.request.Request("http://localhost:5001/point-cut", data=jsonData)
+            req.get_method = lambda: 'post'
+            jsonResult = urllib.request.urlopen(req).read()
+            result = json.loads(jsonResult.decode())
         elif term_type == '모의고사':
-            print('모의고사')
-            get_m_data(str(year), str(month), subject)
+            get_m_data(str(year[0:4]), str(month), subject)
         return filename
 
 

@@ -10,8 +10,11 @@ data = {
     'm_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamAnalysys.ds?requestMenuId=M000000044',
 
     '국어': '&grade=&examRelm=1#mainView',
+    '수학': '&grade=&examRelm=2&examSubj=21#mainView',
     '수학가형': '&grade=&examRelm=2&examSubj=21#mainView',
     '수학나형': '&grade=&examRelm=2&examSubj=24#mainView',
+    '수학A형': '&grade=&examRelm=2&examSubj=21#mainView',
+    '수학B형': '&grade=&examRelm=2&examSubj=24#mainView',
     '영어': '&grade=&examRelm=3#mainView',
     '한국지리': '&grade=&examRelm=41&examSubj=4A#mainView',
     '세계지리': '&grade=&examRelm=41&examSubj=4B#mainView',
@@ -61,7 +64,7 @@ def get_s_data(year, subject):
             filename2 = '/Users/jiharu/Desktop/' + year + "년도 " + subject + " 수능 오답률.csv"
             getExamPointCut(year, '11월', subject, ExamPointCut_url, filename1)
             getExamWrongAnswer(year, '11월', subject, ExamWrongAnswer_url, filename2)
-            break
+            return filename1, filename2
 
 
 def get_m_data(year, month, subject):
@@ -84,8 +87,7 @@ def get_m_data(year, month, subject):
             filename2 = '/Users/jiharu/Desktop/' + year + "년도 " + month + " " + subject + " 모의고사 오답률.csv"
             getExamPointCut(year, month, subject, ExamPointCut_url, filename1)
             getExamWrongAnswer(year, month, subject, ExamWrongAnswer_url, filename2)
-
-            break
+            return filename1, filename2
 
 
 def getExamPointCut(year, month, subject, ExamPointCut_url, filename):
@@ -96,6 +98,9 @@ def getExamPointCut(year, month, subject, ExamPointCut_url, filename):
     wr = csv.writer(f)
     wr.writerow(['등급'.encode(), '원점수'.encode(), '표준점수'.encode(), '백분위'.encode()])
     for row in soup.find_all("div", class_="div430"):
+        if subject.find('수학') != -1:
+            subject = '수학'
+
         if row.div.h3.text.find(subject) != -1:
             for i in row.find("table", class_="scoretable").find_all('tr'):
                 if i.find_all('td'):
@@ -127,6 +132,5 @@ def getExamWrongAnswer(year, month, subject, ExamWrongAnswer_url, filename):
 
             wr.writerow([i[0].text, i[1].text, i[2].text, i[3].text, i[4].text, i[5].text,
                          i[6].text, i[7].text, i[8].text, i[9].text, i[10].text])
-
 
 # get_s_data('2016', '국어')

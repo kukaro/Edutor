@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import json
 
 from route.Answer import Answer
+from route.PointCut import PointCut
 
 app = Flask(__name__)
 
@@ -55,7 +56,7 @@ class User(Resource):
 
             cursor.execute(query)
             row = cursor.fetchall()
-            rowToDict = {'data':{'name': row[0][0], 'email': row[0][1], 'password': row[0][2]}}
+            rowToDict = {'data': {'name': row[0][0], 'email': row[0][1], 'password': row[0][2]}}
             print('result : ')
             print(rowToDict)
             return rowToDict
@@ -380,6 +381,7 @@ api.add_resource(Term, '/term', endpoint='/question')
 api.add_resource(Dialog, '/dialog')
 api.add_resource(Question, '/question')
 api.add_resource(Answer, '/answer')
+api.add_resource(PointCut, '/point-cut')
 
 if __name__ == '__main__':
     app.run(port=5001)

@@ -29,6 +29,14 @@ class EBS:
         return r.url == 'http://www.ebsi.co.kr/index.jsp'
 
     def get_list(self, year, page=1, page_size=10):
+        global titleList
+        global urlList
+        global solutionList
+
+        titleList = []
+        urlList = []
+        solutionList = []
+
         url = 'http://www.ebsi.co.kr/ebs/xip/xipc/previousPaperListAjax.ebs'
         data = {
             'page': page,

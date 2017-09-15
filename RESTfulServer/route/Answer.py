@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, make_response, redirect, request, session
 from flask_restful import Resource, Api, reqparse
 from flaskext.mysql import MySQL
@@ -34,7 +36,8 @@ class Answer(Resource):
                                     'subject': termList[1],
                                     'term_type': '수능'
                                 },
-                                'answer_elements': data['termArr']
+                                'answer_elements': data['termArr'],
+                                'time':datetime.datetime.now()
                             }
                         ])
                         return {'success': 'ok', 'term_type': '수능'}
@@ -48,7 +51,8 @@ class Answer(Resource):
                                     'subject': termList[2],
                                     'term_type': '모의고사'
                                 },
-                                'answer_elements': data['termArr']
+                                'answer_elements': data['termArr'],
+                                'time': datetime.datetime.now()
                             }
                         ])
                         return {'success': 'ok', 'term_type': '모의고사'}
