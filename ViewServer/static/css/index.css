@@ -252,6 +252,11 @@ font-family : 'Hanna';
   background-color: red;
 }
 
+.term-chart {
+  width: 500px;
+  height: 300px;
+}
+
 a:hover, a:active, a:focus {
   text-decoration: none;
   outline: 0;
