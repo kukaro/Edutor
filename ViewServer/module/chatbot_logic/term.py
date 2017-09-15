@@ -1,12 +1,12 @@
 from module.utils.term.term_slate import get_slate
 from module.utils.term.term_toHTML import get_toHTML
 from module.utils.term.term_crolling import get_term
+from module.utils.get_exam_crawling import get_s_data, get_m_data
+from module.utils.csv_test import readCSV
 from module.utils.dialog import byteArrayToStr
 from flask import session
 import json
 import urllib
-from module.utils.term_crolling import get_term
-from module.utils.term_slate import get_slate
 
 
 def term(msg):
@@ -14,12 +14,31 @@ def term(msg):
     term_title = result_crolling['term_title']
     term_url = result_crolling['term_url']
     filename = result_crolling['filename']
+    term_arr = term_title.split(' ')
+    if term_arr[len(term_arr) - 1].find('수능') >= 0:
+        year = term_arr[0]
+        subject = term_arr[1]
+        term_type = '수능'
+    elif term_arr[len(term_arr) - 1].find('모의고사') >= 0:
+        year = term_arr[0]
+        month = term_arr[1]
+        subject = term_arr[2]
+        term_type = '모의고사'
     print('Enter Term Dialog :')
+    print('result_crawling : ' + str(result_crolling))
     print('term_title : ' + term_title)
     print('term_url : ' + term_url)
+    print('term_arr : ' + str(term_arr))
     if result_crolling['success'] == 'ok':
         get_slate(term_title, term_url)
         get_toHTML(term_title)
+        if term_type == '수능':
+            if subject == '수학':
+                subject += '가형'
+            get_s_data(str(year[0:4]), str(subject))
+        elif term_type == '모의고사':
+            print('모의고사')
+            get_m_data(str(year), str(month), subject)
         return filename
 
 
@@ -75,15 +94,11 @@ def marking_term(msg):
         termArr.append(byteArrayToStr(termEle))
     print(termArr)
     print(session)
-    data = {'email': session['email'], 'subject': subject, 'termCount': termCount, 'filename': filename}
+    data = {'email': session['email'], 'subject': subject, 'termCount': termCount, 'filename': filename,
+            'termArr': termArr}
     jsonData = bytes(json.dumps(data).encode())
     req = urllib.request.Request("http://localhost:5001/answer", data=jsonData)
     req.get_method = lambda: 'post'
     jsonResult = urllib.request.urlopen(req).read()
     result = json.loads(jsonResult.decode())
     print(result)
-    print('Enter Term Dialog :')
-    print('term_title' + term_title)
-    print('term_url' + term_url)
-    if result_crolling['success'] == 'ok':
-        term_title = get_slate(term_title, term_url)

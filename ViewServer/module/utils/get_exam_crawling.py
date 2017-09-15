@@ -3,41 +3,43 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 data = {
-            'base_ExamPointCut_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamPointCut.ds?groupNo=',
-            'base_ExamWrongAnswer_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamWrongAnswer.ds?groupNo=',
+    'base_ExamPointCut_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamPointCut.ds?groupNo=',
+    'base_ExamWrongAnswer_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamWrongAnswer.ds?groupNo=',
 
-            's_url': 'http://www.mimacstudy.com/mockTest/UNmockAnalysisExamAnalysys.ds?groupNo=214&requestMenuId=MNMN_M009',
-            'm_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamAnalysys.ds?requestMenuId=M000000044',
+    's_url': 'http://www.mimacstudy.com/mockTest/UNmockAnalysisExamAnalysys.ds?groupNo=214&requestMenuId=MNMN_M009',
+    'm_url': 'http://www.mimacstudy.com/mockTest/MCKmockAnalysisExamAnalysys.ds?requestMenuId=M000000044',
 
-            '국어': '&grade=&examRelm=1#mainView',
-            '수학가형': '&grade=&examRelm=2&examSubj=21#mainView',
-            '수학나형': '&grade=&examRelm=2&examSubj=24#mainView',
-            '영어': '&grade=&examRelm=3#mainView',
-            '한국지리': '&grade=&examRelm=41&examSubj=4A#mainView',
-            '세계지리': '&grade=&examRelm=41&examSubj=4B#mainView',
-            '동아시아사': '&grade=&examRelm=41&examSubj=4E#mainView',
-            '세계사': '&grade=&examRelm=41&examSubj=4F#mainView',
-            '법과정치': '&grade=&examRelm=41&examSubj=4G#mainView',
-            '생활과윤리': '&grade=&examRelm=41&examSubj=4H#mainView',
-            '경제': '&grade=&examRelm=41&examSubj=4I#mainView',
-            '사회문화': '&grade=&examRelm=41&examSubj=4J#mainView',
-            '윤리와사상': '&grade=&examRelm=41&examSubj=4K#mainView',
-            '물리': '&grade=&examRelm=42&examSubj=4L#mainView',
-            '화학': '&grade=&examRelm=42&examSubj=4M#mainView',
-            '생명과학': '&grade=&examRelm=42&examSubj=4N#mainView',
-            '지구과학': '&grade=&examRelm=42&examSubj=4O#mainView',
-            '물리2': '&grade=&examRelm=42&examSubj=4P#mainView',
-            '화학2': '&grade=&examRelm=42&examSubj=4Q#mainView',
-            '생명과학2': '&grade=&examRelm=42&examSubj=4R#mainView',
-            '지구과학2': '&grade=&examRelm=42&examSubj=4S#mainView',
-            '한국사': '&grade=&examRelm=6#mainView'
-        }
+    '국어': '&grade=&examRelm=1#mainView',
+    '수학가형': '&grade=&examRelm=2&examSubj=21#mainView',
+    '수학나형': '&grade=&examRelm=2&examSubj=24#mainView',
+    '영어': '&grade=&examRelm=3#mainView',
+    '한국지리': '&grade=&examRelm=41&examSubj=4A#mainView',
+    '세계지리': '&grade=&examRelm=41&examSubj=4B#mainView',
+    '동아시아사': '&grade=&examRelm=41&examSubj=4E#mainView',
+    '세계사': '&grade=&examRelm=41&examSubj=4F#mainView',
+    '법과정치': '&grade=&examRelm=41&examSubj=4G#mainView',
+    '생활과윤리': '&grade=&examRelm=41&examSubj=4H#mainView',
+    '경제': '&grade=&examRelm=41&examSubj=4I#mainView',
+    '사회문화': '&grade=&examRelm=41&examSubj=4J#mainView',
+    '윤리와사상': '&grade=&examRelm=41&examSubj=4K#mainView',
+    '물리': '&grade=&examRelm=42&examSubj=4L#mainView',
+    '화학': '&grade=&examRelm=42&examSubj=4M#mainView',
+    '생명과학': '&grade=&examRelm=42&examSubj=4N#mainView',
+    '지구과학': '&grade=&examRelm=42&examSubj=4O#mainView',
+    '물리2': '&grade=&examRelm=42&examSubj=4P#mainView',
+    '화학2': '&grade=&examRelm=42&examSubj=4Q#mainView',
+    '생명과학2': '&grade=&examRelm=42&examSubj=4R#mainView',
+    '지구과학2': '&grade=&examRelm=42&examSubj=4S#mainView',
+    '한국사': '&grade=&examRelm=6#mainView'
+}
+
 
 def get_html(url, maxbuf=10485760):
     res = urlopen(url)
     html = res.read(maxbuf)
     res.close()
     return html
+
 
 def get_s_data(year, subject):
     html = get_html(data['s_url'])
@@ -55,11 +57,12 @@ def get_s_data(year, subject):
             print(ExamPointCut_url)
             print(ExamWrongAnswer_url)
 
-            filename1 = '/Users/limjinha/Desktop/' + year + "년도 " + subject + " 수능 등급컷.csv"
-            filename2 = '/Users/limjinha/Desktop/' + year + "년도 " + subject + " 수능 오답률.csv"
+            filename1 = '/Users/jiharu/Desktop/' + year + "년도 " + subject + " 수능 등급컷.csv"
+            filename2 = '/Users/jiharu/Desktop/' + year + "년도 " + subject + " 수능 오답률.csv"
             getExamPointCut(year, '11월', subject, ExamPointCut_url, filename1)
             getExamWrongAnswer(year, '11월', subject, ExamWrongAnswer_url, filename2)
             break
+
 
 def get_m_data(year, month, subject):
     html = get_html(data['m_url'])
@@ -77,12 +80,13 @@ def get_m_data(year, month, subject):
             print(ExamPointCut_url)
             print(ExamWrongAnswer_url)
 
-            filename1 = '/Users/limjinha/Desktop/' + year + "년도 " + month + " " + subject + " 모의고사 등급컷.csv"
-            filename2 = '/Users/limjinha/Desktop/' + year + "년도 " + month + " " + subject + " 모의고사 오답률.csv"
+            filename1 = '/Users/jiharu/Desktop/' + year + "년도 " + month + " " + subject + " 모의고사 등급컷.csv"
+            filename2 = '/Users/jiharu/Desktop/' + year + "년도 " + month + " " + subject + " 모의고사 오답률.csv"
             getExamPointCut(year, month, subject, ExamPointCut_url, filename1)
             getExamWrongAnswer(year, month, subject, ExamWrongAnswer_url, filename2)
 
             break
+
 
 def getExamPointCut(year, month, subject, ExamPointCut_url, filename):
     html = get_html(ExamPointCut_url)
@@ -103,6 +107,7 @@ def getExamPointCut(year, month, subject, ExamPointCut_url, filename):
 
                     wr.writerow([rank, o_score, s_score, percent])
 
+
 def getExamWrongAnswer(year, month, subject, ExamWrongAnswer_url, filename):
     html = get_html(ExamWrongAnswer_url)
     soup = BeautifulSoup(html, "html.parser")
@@ -110,10 +115,10 @@ def getExamWrongAnswer(year, month, subject, ExamWrongAnswer_url, filename):
     f = open(filename, 'w', encoding='utf-8', newline='')
     wr = csv.writer(f)
     wr.writerow([
-                '문항번호'.encode(), '배점'.encode(), '정답'.encode(), '오답률'.encode(),
-                '정답률'.encode(), '선택비율1'.encode(), '선택비율2'.encode(), '선택비율3'.encode(),
-                '선택비율4'.encode(), '선택비율5'.encode(), '난이도'.encode()
-                 ])
+        '문항번호'.encode(), '배점'.encode(), '정답'.encode(), '오답률'.encode(),
+        '정답률'.encode(), '선택비율1'.encode(), '선택비율2'.encode(), '선택비율3'.encode(),
+        '선택비율4'.encode(), '선택비율5'.encode(), '난이도'.encode()
+    ])
 
     for row in soup.find("table").find_all('tr'):
         if row.find_all('td'):

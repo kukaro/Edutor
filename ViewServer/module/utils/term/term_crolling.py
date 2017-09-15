@@ -223,6 +223,7 @@ def get_term(dialog):
     matched = re.match(r'^(\d+)년도$', dialogList[0])
     print('Enter Get Term Dialog:')
     print(dialogList)
+
     if not matched:
         return None
 
@@ -247,6 +248,7 @@ def get_term(dialog):
                 print(term_title)
                 print(download_url)
                 '''
+
                 if dialog.find('모의고사') != -1:
                     month = dialogList[1]
                     subject = dialogList[2]
@@ -258,21 +260,21 @@ def get_term(dialog):
                         s_filename = '/Users/jiharu/Desktop/' + term_title + ' 해답.pdf'
                         urllib.request.urlretrieve(download_url, filename)
                         urllib.request.urlretrieve(solution_download_url, s_filename)
-                        return {'success': 'ok', 'term_title': term_title, 'term_url': download_url,
-                                'filename': filename}
+                        print(filename)
+                        return {'success': 'ok', 'term_title': term_title, 'term_url': download_url,'filename': filename}
 
                 elif dialog.find('수능') != -1:
                     subject = dialogList[1]
-
                     if term_title.find(subject) != -1:
+
                         print(term_title)
                         print(download_url)
                         filename = '/Users/jiharu/Desktop/' + term_title + '.pdf'
                         s_filename = '/Users/jiharu/Desktop/' + term_title + ' 해답.pdf'
                         urllib.request.urlretrieve(download_url, filename)
                         urllib.request.urlretrieve(solution_download_url, s_filename)
-                        return {'success': 'ok', 'term_title': term_title, 'term_url': download_url,
-                                'filename': filename}
+                        print(filename)
+                        return {'success': 'ok', 'term_title': term_title, 'term_url': download_url,'filename': filename}
 
 
 
