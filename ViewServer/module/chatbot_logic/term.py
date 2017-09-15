@@ -42,6 +42,13 @@ def term(msg):
             req.get_method = lambda: 'post'
             jsonResult = urllib.request.urlopen(req).read()
             result = json.loads(jsonResult.decode())
+
+            req = urllib.request.Request("http://localhost:5001/wrong-answer", data=jsonData)
+            req.get_method = lambda: 'post'
+            jsonResult = urllib.request.urlopen(req).read()
+            result = json.loads(jsonResult.decode())
+
+
         elif term_type == '모의고사':
             get_m_data(str(year[0:4]), str(month), subject)
         return filename

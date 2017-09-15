@@ -6,6 +6,7 @@ import json
 
 from route.Answer import Answer
 from route.PointCut import PointCut
+from route.WrongAnswer import WrongAnswer
 
 app = Flask(__name__)
 
@@ -382,6 +383,7 @@ api.add_resource(Dialog, '/dialog')
 api.add_resource(Question, '/question')
 api.add_resource(Answer, '/answer')
 api.add_resource(PointCut, '/point-cut')
+api.add_resource(WrongAnswer, '/wrong-answer')
 
 if __name__ == '__main__':
     app.run(port=5001)
