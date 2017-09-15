@@ -26,16 +26,15 @@ class PointCut(Resource):
             query = [{'term': {
                 'year': data['year'][:4],
                 'subject': data['subject'],
-                'term_type': data['term_type'],
-                'point_cut': {}
-            }}]
+                'term_type': data['term_type']
+            }, 'point_cut': {}}]
             for row in fileP:
                 tmp = {}
                 if sw:
                     sw = False
                 else:
-                    for i in len(row):
-                        tmp[fileP[i]] = row[i]
-                query['point_cut'][str(row[0])] = tmp
+                    for i in range(len(row)):
+                        tmp[file_header[i]] = row[i]
+                    query[0]['point_cut'][str(row[0])] = tmp
             print(query)
-            #point_cut.insert()
+            point_cut.insert(query)
