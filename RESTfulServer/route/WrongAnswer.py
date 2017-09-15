@@ -22,19 +22,26 @@ class WrongAnswer(Resource):
         file_header = fileW[0]
         sw = True
         print(fileW[0])
-        if data['term_type'] == '수능':
-            query = [{'term': {
-                'year': data['year'][:4],
-                'subject': data['subject'],
-                'term_type': data['term_type'],
-                'wrong_answer': {}
-            }}]
-            for row in fileW:
-                tmp = {}
-                if sw:
-                    sw = False
-                else:
-                    for i in len(row):
-                        tmp[fileW[i]] = row[i]
-                query['wrong_answer'][str(row[0])] = tmp
-            print(query)
+        if wrong_answer.find_one({'term': {
+            'year': data['year'][:4],
+            'subject': data['subject'],
+            'term_type': data['term_type']
+        }}) is not None:
+            if data['term_type'] == '수능':
+                query = [{'term': {
+                    'year': data['year'][:4],
+                    'subject': data['subject'],
+                    'term_type': data['term_type'],
+
+                }, 'wrong_answer': {}}]
+                for row in fileW:
+                    tmp = {}
+                    if sw:
+                        sw = False
+                    else:
+                        for i in range(len(row)):
+                            tmp[file_header[i]] = row[i]
+                    query[0]['wrong_answer'][str(row[0])] = tmp
+                print(query)
+                wrong_answer.insert(query)
+        return {'success': 'ok'}

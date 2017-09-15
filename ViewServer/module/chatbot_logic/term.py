@@ -91,7 +91,7 @@ def get_term_input(dialog):
         number = dialogList[0][:-1]
         ans = dialogList[1]
         return {'number': number, 'ans': ans}
-    elif dialog.find('채점') >= 0 or dialog.find('완료') or dialog.find('제출') >= 0:
+    elif dialog.find('채점') >= 0 or dialog.find('완료') >= 0 or dialog.find('제출') >= 0:
         return {'marking': True}
     else:
         return {'dialog': '잘못된 명령입니다.', 'callState': 'testTermOK'}
