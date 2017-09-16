@@ -12,7 +12,18 @@ point_cut = db.point_cut
 
 class PointCut(Resource):
     def get(self):
-        pass
+        jsonData = request.get_data()
+        data = json.loads(jsonData.decode())
+        print(data)
+        if data['subject'] == '수학':
+            data['subject'] += '가형'
+        result = point_cut.find_one({'term': {
+            'year': data['year'][:4],
+            'subject': data['subject'],
+            'term_type': data['term_type']
+        }})
+        print(result)
+        return result['point_cut']
 
     def post(self):
         jsonData = request.get_data()
@@ -26,7 +37,7 @@ class PointCut(Resource):
             'year': data['year'][:4],
             'subject': data['subject'],
             'term_type': data['term_type']
-        }}) is not None:
+        }}) is None:
             if data['term_type'] == '수능':
                 query = [{'term': {
                     'year': data['year'][:4],

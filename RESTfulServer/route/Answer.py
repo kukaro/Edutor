@@ -13,7 +13,17 @@ answer = db.answer
 
 class Answer(Resource):
     def get(self):
-        pass
+        jsonData = request.get_data()
+        data = json.loads(jsonData.decode('utf-8'))
+        print(data['email'])
+        docs = answer.find({'email': data['email']})
+        arr = []
+        for ele in docs:
+            ele.pop('_id')
+            arr.append(ele)
+            print(ele)
+        print(arr)
+        return {'data': arr}
 
     def post(self):
         jsonData = request.get_data()
@@ -37,7 +47,9 @@ class Answer(Resource):
                                     'term_type': '수능'
                                 },
                                 'answer_elements': data['termArr'],
-                                'time':datetime.datetime.now()
+                                'time': str(datetime.datetime.now()),
+                                'grade': data['grade'],
+                                'total':data['total']
                             }
                         ])
                         return {'success': 'ok', 'term_type': '수능'}
@@ -52,7 +64,9 @@ class Answer(Resource):
                                     'term_type': '모의고사'
                                 },
                                 'answer_elements': data['termArr'],
-                                'time': datetime.datetime.now()
+                                'time': datetime.datetime.now(),
+                                'grade': data['grade'],
+                                'total': data['total']
                             }
                         ])
                         return {'success': 'ok', 'term_type': '모의고사'}
