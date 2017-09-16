@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>EDUTER</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap-ko.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+</head>
+<script src="../static/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    /*$(document).ready(function () {
+        //$("#question-frame").load("/question/2017/5/영어");
+        $("#question-frame").load("/question", {year: '2017', month: '5', subject: '영어'});
+    });*/
+    $(document).ready(function () {
+        $("#left-frame").load("/left");
+    });
+    $(document).ready(function () {
+        $("#right-frame").load("/right");
+    });
+</script>
+<body>
+<div class="row-fluid" id="container">
+    <div class="row-fluid">
+        <div class="span12" id="container-top">
+            <h1>EDUTER</h1>
+
+        </div>
+
+    </div>
+    <div class="row-fluid">
+        <!--좌측 프레임-->
+        <div class="span8" id="container-left">
+            <div id="left-frame"></div>
+        </div>
+        <!--우측 프레임-->
+        <div class="span4 bg-white" id="container-right">
+            <div id="right-frame"></div>
+        </div>
+    </div>
+</div>
+
+
+<div id="footer">
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<style>
+    html, body {
+        height: 100%;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#term-answer-frame").load("/term-answer");
+    });
+    /*$.ajax({
+        type: 'get',
+        url: '/term-question',
+        success: function (data) {
+            var returnData = '<embed src=\"/term-question\" type=\"application/pdf\" width="100%" height="500"></embed>';
+
+            $("#term-question-frame").html(returnData);
+        }
+    });*/
+    $.ajax({
+        type: 'get',
+        url: '/hello',
+        success: function (data) {
+            $("#term-question-frame").html(data);
+        }
+    });
+
+</script>
+<!--문제가 출력되는 프레임-->
+<div id="term-question-frame"></div>
+
+{#
+<div id="term-answer-frame"></div>#}
